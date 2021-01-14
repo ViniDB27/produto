@@ -1,0 +1,31 @@
+version: '3'
+
+volumes:
+  postgresql:
+
+services:
+  ### PostgreSQL
+  postgres:
+    container_name: postgres
+    image: postgres:9.6
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: produtos
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: vinidb
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+
+  ### API - Laravel
+  api:
+    container_name: produtos_api
+    image: gerentepro/lumen:latest
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/usr/share/nginx
+    depends_on:
+      - postgres
+[14:46]
